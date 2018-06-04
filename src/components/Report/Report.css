@@ -1,14 +1,14 @@
-#container {
+.container {
     width: 1200px
 }
 
-#ic {
+.ic {
     width:300px;
     float:left;
     padding-right: 15px;
 }
 
-#report {
+.report {
   width:800px;
   float:left;
 }

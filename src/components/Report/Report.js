@@ -1,10 +1,16 @@
 import React from 'react';
 import './Report.css';
+import { Tab,Tabs } from '@blueprintjs/core';
 
 
 class Report extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      r: this.props.report,
+      ic: this.props.ic
+    }
+
     this.renderReport = this.renderReport.bind(this);
   }
 
@@ -13,23 +19,28 @@ class Report extends React.Component {
   }
 
   renderReport() {
-    window.visualize({
-        auth: {
-            name: "joeuser",
-            password: "joeuser"
-        }
-    }, function (v) {
+    window.visualize(
+      function (v) {
 
-    		let resourceUri = "/public/Jaspersoft_Community_Wiki_Reporting/Article_Views";
+    		let resourceUris = [
+          {
+            name:'Cities',
+            uri: '/public/Samples/Reports/Cities'
+          },
+          {
+            name: 'Article_Views',
+            uri: '/public/Jaspersoft_Community_Wiki_Reporting/Article_Views'
+          }
+        ];
 
         let report = v.report({
-        		resource: resourceUri,
-            container: "#report"
+        		resource: resourceUris[0].uri,
+            container: "#report1"
         });
 
-         let inputControls = v.inputControls({
-        		resource: resourceUri,
-        		container: "#ic",
+        let inputControls = v.inputControls({
+        		resource: resourceUris[0].uri,
+        		container: "#ic1",
             events: {
             	change: function(params, error){
               	if (!error){
@@ -47,12 +58,11 @@ class Report extends React.Component {
   render() {
     return (
       <div>
-        <h1>Here comes nothing</h1>
         <div id="container">
-          <div id="ic">
+          <div id={this.state.ic}>
               <div><p>Loading...</p></div>
           </div>
-          <div id="report"></div>
+          <div id={this.state.r}></div>
         </div>
       </div>
     )
