@@ -1,35 +1,32 @@
 import React from 'react';
 import './Report.css';
-import { Tab,Tabs } from '@blueprintjs/core';
 
+let reports = [{
+  resource: "/public/Samples/Reports/Cities",
+  container: "#report1",
+  success: function() {
+    console.log("Report rendered!");
+  },
+  error: function(e) {
+    console.log(e);
+  }
+}];
 
 class Report extends React.Component {
   componentWillMount() {
-    this.addReport();
+    this.addReport(reports[0]);
   }
 
-  addReport() {
+  addReport(properties) {
     let functionCall = 'report';
-    let props = {
-      resource: "/public/Samples/Reports/Cities",
-      container: "#report1",
-      success: function() {
-        console.log("Report rendered!");
-      },
-      error: function(e) {
-        console.log(e);
-      }
-    }
+    let props = properties;
     this.props.functionCallToAdd(functionCall,props);
   }
 
   render() {
     return (
-      <div id="container">
-        <div id="ic1">
-            <div><p>Loading...</p></div>
-        </div>
-        <div id="report1"></div>
+      <div>
+        <div id="report1" className="report"></div>
       </div>
     )
   }

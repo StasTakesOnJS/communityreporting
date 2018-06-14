@@ -2,12 +2,14 @@ import React, {Component} from 'react';
 import './App.css';
 import Report from '../Report/Report';
 import AdHocView from '../AdHocView/AdHocView';
+import InputControls from '../InputControls/InputControls';
+import FilterList from '../FilterList/FilterList';
 import { login } from '../Login/Login';
 import { Tab,Tabs } from '@blueprintjs/core';
 
-const tabsStyle = {
-  backgroundColor: "lightgrey",
-}
+// const tabsStyle = {
+//   backgroundColor: "lightgrey",
+// }
 
 class App extends Component {
   constructor(props) {
@@ -36,13 +38,12 @@ class App extends Component {
   //Call visualize and render all the elements added to this.state.viz
   //Runs once all the child components are rendered.
   componentDidMount() {
-    login();
     let viz = this.state.viz;
     window.visualize(
+      login,
       function(v) {
         for (let i=0; i<viz.length; i++) {
-          let functionCall = viz[i].functionCall;
-          let call = v[functionCall](viz[i].props);
+          v[viz[i].functionCall](viz[i].props);
         }
       }
     );
@@ -59,8 +60,14 @@ class App extends Component {
       //   </Tabs>
       // </div>
       <div>
-        <AdHocView functionCallToAdd={this.addToViz} />
-        <Report functionCallToAdd={this.addToViz} />
+        <div>
+          <FilterList functionCallToAdd={this.addToViz} />
+          <AdHocView functionCallToAdd={this.addToViz} />
+        </div>
+        <div>
+          <InputControls functionCallToAdd={this.addToViz} />
+          <Report functionCallToAdd={this.addToViz} />
+        </div>
       </div>
     )
   }
