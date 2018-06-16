@@ -1,4 +1,5 @@
 import React from 'react';
+import { Spinner } from '@blueprintjs/core';
 import './Report.css';
 
 let reports = [{
@@ -25,8 +26,10 @@ class Report extends React.Component {
 
   render() {
     return (
-      <div>
-        <div id="report1" className="report"></div>
+      <div id="report1" className="report">
+        <div className="spinner">
+          <Spinner />
+        </div>
       </div>
     )
   }

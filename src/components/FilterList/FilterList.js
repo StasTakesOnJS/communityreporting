@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Spinner } from '@blueprintjs/core';
 import './FilterList.css';
 
 //TODO: the component is expected to pull all filters of an Ad Hoc view,
@@ -30,7 +31,11 @@ class FilterList extends Component {
 
   render() {
     return (
-      <div id="filtersContainer1" className="filtersContainer"></div>
+      <div id="filtersContainer1" className="filtersContainer">
+        <div className="spinner">
+          <Spinner />
+        </div>
+      </div>
     )
   }
 }

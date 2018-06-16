@@ -1,5 +1,13 @@
 .inputContainer {
-  width: 300px;
+  min-width: 300px;
+  width: 20%;
   float: left;
-  padding-right: 15px;
+  padding: .8em;
+  margin-right: 5px;
+  background-color: white;
+  border-width: .1em;
+  border-color: #77B6EA;
+  border-style: solid;
+  height: 100%;
+  overflow: scroll;
 }

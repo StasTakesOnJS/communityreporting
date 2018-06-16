@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Spinner } from '@blueprintjs/core';
 import './AdHocView.css';
 
 let adHocViews = [{
@@ -25,7 +26,11 @@ class AdHocView extends Component {
 
   render() {
     return (
-        <div id="adhocContainer" className="adHocView"></div>
+        <div id="adhocContainer" className="adHocView">
+          <div className="spinner">
+            <Spinner />
+          </div>
+        </div>
     );
   }
 }

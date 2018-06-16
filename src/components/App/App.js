@@ -5,20 +5,19 @@ import AdHocView from '../AdHocView/AdHocView';
 import InputControls from '../InputControls/InputControls';
 import FilterList from '../FilterList/FilterList';
 import { login } from '../Login/Login';
-import { Tab,Tabs } from '@blueprintjs/core';
+import { Tab,Tabs,Spinner } from '@blueprintjs/core';
 
-// const tabsStyle = {
-//   backgroundColor: "lightgrey",
-// }
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       viz: [],
+      selectedTabId: 'tab1',
     };
 
     this.addToViz = this.addToViz.bind(this);
+    this.handleTabChange = this.handleTabChange.bind(this);
   }
 
   //TODO find a way to create and pass add*() function to all child components,
@@ -49,25 +48,29 @@ class App extends Component {
     );
   }
 
+  //Handle clicks between Tabs
+  handleTabChange(target) {
+    this.setState({selectedTabId: target});
+  }
+
   render() {
     return (
-      // <div style={tabsStyle}>
-      //   <Tabs id="communityReports" onChange={this.handleTabChange} selectedTabId="report1" >
-      //     <Tab id="report1" title="Hey it's another report" panel={<AdHocView functionCallToAdd={this.addToViz} />} />
-      //     <Tab id="report2" title="Hey it's another report" panel={<Report ic="ic1" report="report1" />} />
-      //     <Tabs.Expander />
-      //     <input className="pt-input" type="text" placeholder="Search..." />
-      //   </Tabs>
-      // </div>
-      <div>
-        <div>
-          <FilterList functionCallToAdd={this.addToViz} />
-          <AdHocView functionCallToAdd={this.addToViz} />
-        </div>
-        <div>
-          <InputControls functionCallToAdd={this.addToViz} />
-          <Report functionCallToAdd={this.addToViz} />
-        </div>
+      <div id="tabs">
+        <Tabs id="communityReports" onChange={this.handleTabChange} selectedTabId={this.state.selectedTabId} >
+          <Tab id="tab1" title="Hey it's a report" panel={
+            <div className="container">
+              <FilterList functionCallToAdd={this.addToViz} />
+              <AdHocView functionCallToAdd={this.addToViz} />
+            </div>
+          } />
+          <Tab id="tab2" title="Hey it's another report. It has a long name." panel={
+            <div className="container">
+              <InputControls functionCallToAdd={this.addToViz} />
+              <Report functionCallToAdd={this.addToViz} />
+            </div>
+          } />
+          <Tabs.Expander />
+        </Tabs>
       </div>
     )
   }

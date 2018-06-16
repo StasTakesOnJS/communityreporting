@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Spinner } from '@blueprintjs/core';
 import './InputControls.css';
 
 let inputControls = [{
@@ -25,7 +26,11 @@ class InputControls extends Component {
 
   render() {
     return (
-        <div id="inputContainer1" className="inputContainer"></div>
+      <div id="inputContainer1" className="inputContainer">
+        <div className="spinner">
+          <Spinner />
+        </div>
+      </div>
     )
   }
 };

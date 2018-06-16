@@ -1,4 +1,10 @@
 .adHocView {
-  width: 800px;
-  float: left;
+  /* width: 100%; */
+  height: 100%;
+  /* float: left; */
+  background-color: white;
+  border-width: .1em;
+  border-color: #77B6EA;
+  border-style: solid;
+  overflow: scroll;
 }
