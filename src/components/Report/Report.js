@@ -14,7 +14,7 @@ let reports = [{
 }];
 
 class Report extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     this.addReport(reports[0]);
   }
 

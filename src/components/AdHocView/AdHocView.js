@@ -5,6 +5,9 @@ import './AdHocView.css';
 let adHocViews = [{
   resource: "/public/Samples/Ad_Hoc_Views/05__Unit_Sales_Trend",
   container: "#adhocContainer",
+  params: {
+    c_country_1: ["Mexico"],
+  },
   success: function() {
     console.log("Ad Hoc view rendered!");
   },
@@ -14,7 +17,7 @@ let adHocViews = [{
 }];
 
 class AdHocView extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.addAdHocView(adHocViews[0]);
   }
 

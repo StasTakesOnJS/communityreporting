@@ -3,11 +3,17 @@
   width: 300px;
   float: left;
   padding: .8em;
-  margin-right: 5px;
+  margin-right: .4em;
   background-color: white;
-  border-width: .1em;
+  /* border-width: .1em;
   border-color: #77B6EA;
-  border-style: solid;
+  border-style: solid; */
   height: 100%;
   overflow: scroll;
+}
+
+#applyButton {
+  margin-bottom: .8em;
+  position: absolute;
+  bottom: 0;
 }

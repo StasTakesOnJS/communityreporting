@@ -1,5 +1,4 @@
-.container {
-  position: relative;
+.container, .pt-tabs, .filters {
   height: 100%;
 }
 
@@ -7,20 +6,19 @@
   width: 100%;
 }
 
-.pt-tabs {
-  height: 100%;
-  /* width: 100%; */
-}
-
-.pt-tab-panel {
-  height: calc(100% - 55px);
-}
-
 .spinner {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+
+.footer {
+  height: 30px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background-color: white;
 }
 
 div.pt-tabs .pt-tab-list {
@@ -34,7 +32,12 @@ div.pt-tabs .pt-tab-list {
 }
 
 div.pt-tabs .pt-tab-panel {
-  margin-top: 2px;
+  margin-top: .6em;
+  margin-bottom: .4em;
+  width: 100%;
+  position: absolute;
+  top: 30px;
+  bottom: 30px;
 }
 
 div.pt-tab-list .pt-tab {

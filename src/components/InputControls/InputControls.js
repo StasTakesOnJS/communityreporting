@@ -14,7 +14,7 @@ let inputControls = [{
 }];
 
 class InputControls extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.addInputControls(inputControls[0]);
   }
 
