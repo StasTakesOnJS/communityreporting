@@ -1,23 +1,21 @@
 import React, {Component} from 'react';
-import { Spinner,Button } from '@blueprintjs/core';
+import PropTypes from 'prop-types';
+import { Spinner,Button,ButtonGroup } from '@blueprintjs/core';
 import './FilterList.css';
 
-//TODO: the component is expected to pull all filters of an Ad Hoc view,
-//parse type, values and selected values, and render all the filters
-//based on the type and selected values. I'm going to need to find sliders,
-//calendars, radio buttons etc to render all the possible types
+//TODO: alternatively, the component is expected to pull all filters of an
+//Ad Hoc view, parse type, values and selected values, and render all the
+//filters based on the type and selected values. I'm going to need to find
+//sliders, calendars, radio buttons etc to render all the possible types
 
 let filters = [{
     resource: "/public/Samples/Ad_Hoc_Views/05__Unit_Sales_Trend",
     container: "#filters",
-    params: {
-      c_country_1: ["Mexico"],
-    },
     // success: function (data) {
     //   console.log(data);
     // },
     error: function (e) {
-      console.error(e);
+      alert(e);
     }
 }];
 
@@ -26,12 +24,15 @@ class FilterList extends Component {
     super(props);
     this.state = {
       Resource: filters[0],
-      Parameters: {}
+      Parameters: {},
+      vElement: {},
     }
 
+    this.setVElement = this.setVElement.bind(this);
     this.handleValuesChange = this.handleValuesChange.bind(this);
     this.saveFilterValues = this.saveFilterValues.bind(this);
     this.applyFilters = this.applyFilters.bind(this);
+    this.refreshFilterValues = this.refreshFilterValues.bind(this);
   }
 
   componentDidMount() {
@@ -46,7 +47,12 @@ class FilterList extends Component {
   addFilters(properties) {
     let functionCall = 'inputControls';
     let props = properties;
-    this.props.functionCallToAdd(functionCall,props);
+    let callback = this.setVElement;
+    this.props.functionCallToAdd(functionCall,props,callback);
+  }
+
+  setVElement(e) {
+    this.setState({vElement: e});
   }
 
   handleValuesChange(params) {
@@ -73,10 +79,15 @@ class FilterList extends Component {
     const ahv = viz.find(filter);
     const ahvIndex = viz.findIndex(filter);
 
+    //Add parameters from current state.Parameters to the object which is
+    //used to re-render an Ad Hoc view
     ahv.props.params = this.state.Parameters;
     viz.splice(ahvIndex,1,ahv);
-
     this.props.updateViz(ahv, viz);
+  }
+
+  refreshFilterValues() {
+    this.state.vElement.reset();
   }
 
   render() {
@@ -87,10 +98,24 @@ class FilterList extends Component {
             <Spinner />
           </div>
         </div>
-        <Button id="applyButton" icon="refresh" text="Apply" onClick={this.applyFilters} />
+        <ButtonGroup fill={true}>
+          <Button id="applyButton"
+            onClick={this.applyFilters}>
+            Apply</Button>
+          <Button id="refreshButton"
+            onClick={this.refreshFilterValues}>
+            Refresh</Button>
+        </ButtonGroup>
       </div>
     )
   }
+}
+
+FilterList.propTypes = {
+  vClient: PropTypes.func,
+  updateViz: PropTypes.func,
+  returnViz: PropTypes.array,
+  functionCallToAdd: PropTypes.func,
 }
 
 export default FilterList;

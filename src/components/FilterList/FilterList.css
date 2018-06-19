@@ -12,8 +12,6 @@
   overflow: scroll;
 }
 
-#applyButton {
-  margin-bottom: .8em;
-  position: absolute;
-  bottom: 0;
+div.pt-button-group.pt-fill .pt-button {
+  outline: 0;
 }

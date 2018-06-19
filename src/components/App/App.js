@@ -12,39 +12,50 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      vClient: {},
       Viz: [],
       SelectedTabId: 'tab1',
     };
 
+    this.setVCLient = this.setVCLient.bind(this);
     this.addToViz = this.addToViz.bind(this);
     this.handleTabChange = this.handleTabChange.bind(this);
     this.updateViz = this.updateViz.bind(this);
   }
 
-  //TODO find a way to create and pass add*() function to all child components,
-  //so that within each child component i just call this add*() funciton and pass an
-  //object with all properties (functionCall name, props, etc.)
-
   //Call visualize and render all the elements added to this.state.viz
+  //Also adds the v client to the state.
   //Runs once all the child components are rendered.
   componentDidMount() {
+    let setVClient = this.setVCLient;
     let viz = this.state.Viz;
+
+    window.visualize.config(login);
     window.visualize(
-      login,
       function(v) {
+        //for loop has better performance compared to forEach()
         for (let i=0; i<viz.length; i++) {
-          v[viz[i].functionCall](viz[i].props);
+          let e = v[viz[i].functionCall](viz[i].props);
+          if (typeof(viz[i].callback) != 'undefined') {
+            viz[i].callback(e);
+          }
         }
+        setVClient(v);
       }
     );
   }
 
+  setVCLient(v) {
+    this.setState({vClient: v});
+  }
+
   //Callback function to populate this.state.viz from different child components
-  addToViz(functionCall,props) {
+  addToViz(functionCall,props,callback) {
     let currentViz = this.state.Viz;
     currentViz.push({
       "functionCall": functionCall,
-      "props": props
+      "props": props,
+      "callback": callback,
     })
     this.setState({Viz: currentViz});
   }
@@ -54,14 +65,12 @@ class App extends Component {
     this.setState({SelectedTabId: target});
   }
 
+  //TODO: perhaps will have to change the type of componentToUpdate to an array
+  //and iterate through its elements
   updateViz(componentToUpdate, viz) {
-    console.log(componentToUpdate);
     this.setState({Viz: viz});
-    window.visualize(
-      function(v) {
-        v[componentToUpdate.functionCall](componentToUpdate.props);
-      }
-    );
+    let v = this.state.vClient;
+    v[componentToUpdate.functionCall](componentToUpdate.props);
   }
 
   render() {
@@ -71,7 +80,7 @@ class App extends Component {
           <Tab id="tab1" title="Hey it's a report" panel={
             <div className="container">
               <FilterList functionCallToAdd={this.addToViz} returnViz={this.state.Viz}
-                updateViz={this.updateViz} />
+                updateViz={this.updateViz} vClient={this.state.vClient} />
               <AdHocView functionCallToAdd={this.addToViz} />
             </div>
           } />

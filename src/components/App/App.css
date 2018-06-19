@@ -1,5 +1,9 @@
-.container, .pt-tabs, .filters {
+.container, .pt-tabs {
   height: 100%;
+}
+
+.filters {
+  height: calc(100% - 30px);
 }
 
 #tabs {
