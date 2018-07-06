@@ -10,7 +10,7 @@ import './FilterList.css';
 
 let filters = [{
     resource: "/public/Samples/Ad_Hoc_Views/05__Unit_Sales_Trend",
-    container: "#filters",
+    // container: "#filters",
     // success: function (data) {
     //   console.log(data);
     // },
@@ -23,7 +23,7 @@ class FilterList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Resource: filters[0],
+      Resource: this.props.resource,
       Parameters: {},
       vElement: {},
     }
@@ -33,6 +33,7 @@ class FilterList extends Component {
     this.saveFilterValues = this.saveFilterValues.bind(this);
     this.applyFilters = this.applyFilters.bind(this);
     this.refreshFilterValues = this.refreshFilterValues.bind(this);
+    this.reRender = this.reRender.bind(this);
   }
 
   componentDidMount() {
@@ -48,6 +49,7 @@ class FilterList extends Component {
     let functionCall = 'inputControls';
     let props = properties;
     let callback = this.setVElement;
+    props.container = '#filtersContainer' + this.props.index;
     this.props.functionCallToAdd(functionCall,props,callback);
   }
 
@@ -90,19 +92,23 @@ class FilterList extends Component {
     this.state.vElement.reset();
   }
 
+  reRender() {
+    this.state.vElement.render();
+  }
+
   render() {
     return (
       <div id="filtersContainer1" className="filtersContainer">
-        <div id="filters" className="filters">
+        <div id={"filtersContainer" + this.props.index} className="filters">
           <div className="spinner">
             <Spinner />
           </div>
         </div>
         <ButtonGroup fill={true}>
-          <Button id="applyButton"
+          <Button className="applyButton"
             onClick={this.applyFilters}>
             Apply</Button>
-          <Button id="refreshButton"
+          <Button className="refreshButton"
             onClick={this.refreshFilterValues}>
             Refresh</Button>
         </ButtonGroup>
@@ -116,6 +122,8 @@ FilterList.propTypes = {
   updateViz: PropTypes.func,
   returnViz: PropTypes.array,
   functionCallToAdd: PropTypes.func,
+  resource: PropTypes.object,
+  index: PropTypes.string,
 }
 
 export default FilterList;

@@ -25,6 +25,12 @@
   background-color: white;
 }
 
+div.pt-tabs .pt-tab-panel[aria-hidden="true"] {
+  display: block;
+  height: 0;
+  overflow-y: hidden;
+}
+
 div.pt-tabs .pt-tab-list {
   background-color: white;
   border-style: solid;
@@ -33,6 +39,10 @@ div.pt-tabs .pt-tab-list {
   border-bottom-width: .1em;
   border-color: #77B6EA;
   width: inherit;
+}
+
+.selected {
+  width: 100%;
 }
 
 div.pt-tabs .pt-tab-panel {
