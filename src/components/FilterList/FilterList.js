@@ -8,17 +8,6 @@ import './FilterList.css';
 //filters based on the type and selected values. I'm going to need to find
 //sliders, calendars, radio buttons etc to render all the possible types
 
-let filters = [{
-    resource: "/public/Samples/Ad_Hoc_Views/05__Unit_Sales_Trend",
-    // container: "#filters",
-    // success: function (data) {
-    //   console.log(data);
-    // },
-    error: function (e) {
-      alert(e);
-    }
-}];
-
 class FilterList extends Component {
   constructor(props) {
     super(props);
@@ -71,21 +60,27 @@ class FilterList extends Component {
   //same resource URI as the filters, update with the current parameter values,
   //then update the local Viz and pass the updated value back to App component.
   applyFilters() {
-    let state = this.state;
     let viz = this.props.returnViz;
-    let filter = function(component) {
-      return component.functionCall === "adhocView"
-        && component.props.resource === state.Resource.resource;
+    let linkedTo = this.props.linkedTo;
+    let updatedAdHocViews = [];
+    for (let i in linkedTo) {
+      //Filter condition to look up Ad Hoc Views linked to the currentViz
+      //instance of filters in the current Tab
+      let filter = function(component) {
+        return component.functionCall === "adhocView"
+          && component.props.resource === linkedTo[i].resource;
+      }
+
+      const ahv = viz.find(filter);
+      const ahvIndex = viz.findIndex(filter);
+
+      //Add parameters from current state.Parameters to the object which is
+      //used to re-render an Ad Hoc view
+      ahv.props.params = this.state.Parameters;
+      viz.splice(ahvIndex,1,ahv);
+      updatedAdHocViews.push(ahv);
     }
-
-    const ahv = viz.find(filter);
-    const ahvIndex = viz.findIndex(filter);
-
-    //Add parameters from current state.Parameters to the object which is
-    //used to re-render an Ad Hoc view
-    ahv.props.params = this.state.Parameters;
-    viz.splice(ahvIndex,1,ahv);
-    this.props.updateViz(ahv, viz);
+    this.props.updateViz(updatedAdHocViews, viz);
   }
 
   refreshFilterValues() {
@@ -123,6 +118,7 @@ FilterList.propTypes = {
   returnViz: PropTypes.array,
   functionCallToAdd: PropTypes.func,
   resource: PropTypes.object,
+  linkedTo: PropTypes.array,
   index: PropTypes.string,
 }
 

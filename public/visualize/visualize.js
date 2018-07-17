@@ -5,7 +5,7 @@
 
 
 /**
- * nonce-QWEE-W0H3-3QIU-C2QN-VDM3-C7JL-DR2U-USI1 do not remove
+ * nonce-53XV-LBSX-MVR0-FIWF-64D4-4RG8-XMPP-3R7E do not remove
  *
  * @author: Igor Nesterenko, Sergey Prilukin
  * @version $Id: visualize.jsp 51369 2014-11-12 13:59:41Z sergey.prilukin $
@@ -139,11 +139,11 @@ a.events.click.call(this,o.getHyperlink(i,t,s.queryData.metadata.isOLAP),e)})),i
     
 
 
-var themeHref = "http://localhost:8710/jasperserver-pro" + "/" + "_themes/4A2B1D76/theme.css".split("/").slice(0, -1).join("/");
+var themeHref = "http://localhost:8710/jasperserver-pro" + "/" + "_themes/81D2CFBB/theme.css".split("/").slice(0, -1).join("/");
 
 visualize.config({
     server : "http://localhost:8710/jasperserver-pro",
-    scripts : "runtime/C5662397/optimized-scripts",
+    scripts : "runtime/1C277CD5/optimized-scripts",
     logEnabled: true,
     logLevel: "error",
     _showInputControls: "true" === "true",

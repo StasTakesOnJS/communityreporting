@@ -16,6 +16,7 @@ class App extends Component {
     this.state = {
       vClient: {},
       VizElements: [],
+      RenderedElements: [],
       SelectedTabId: 'tab1',
     };
 
@@ -48,6 +49,15 @@ class App extends Component {
         setVClient(v);
       }
     );
+    this.setState({RenderedElements: renderedElements})
+  }
+
+  componentDidUpdate() {
+    console.log('Yeet');
+    //Using this atrocious approach because otherwise the Ad Hoc views and
+    //Dashboards are not displayed when switching to a different tab,
+    //unless the screen is resized or the report is re-run
+    window.dispatchEvent(new Event('resize'));
   }
 
   //Assign Visualize.js client to state once it's established with the
@@ -68,22 +78,25 @@ class App extends Component {
   }
 
   //Handle clicks between Tabs
-  handleTabChange(target) {
-    this.setState({SelectedTabId: target});
+  handleTabChange(current) {
+    this.setState({SelectedTabId: current});
   }
 
-  //TODO: perhaps will have to change the type of componentToUpdate to an array
-  //and iterate through its elements
-  updateViz(componentToUpdate, viz) {
+  //Right now only used to update Ad Hoc Views based on selected filter values
+  updateViz(componentsToUpdate, viz) {
     this.setState({VizElements: viz});
     let v = this.state.vClient;
-    v[componentToUpdate.functionCall](componentToUpdate.props);
+    for (let i in componentsToUpdate) {
+      v[componentsToUpdate[i].functionCall](componentsToUpdate[i].props);
+    }
   }
 
   render() {
     return (
       <div id="tabs">
-        <Tabs id="communityReports" onChange={this.handleTabChange} selectedTabId={this.state.SelectedTabId} >
+        <Tabs id="communityReports"
+          onChange={this.handleTabChange}
+          selectedTabId={this.state.SelectedTabId} >
           <Tab  id="tab1"
                 title="Hey it's a report"
                 panel={
@@ -93,31 +106,38 @@ class App extends Component {
                                   updateViz={this.updateViz}
                                   vClient={this.state.vClient}
                                   resource={vizObjects.filters[0]}
+                                  linkedTo={[vizObjects.adHocViews[0],vizObjects.adHocViews[1]]}
                                   index="_1_1" />
-                    <AdHocView    functionCallToAdd={this.addToViz}
-                                  resource={vizObjects.adHocViews[0]}
-                                  index="_1_2" />
-                  </div>
-                } />
-
-          <Tab  id="tab4"
-                title="Hey it's another report"
-                panel={
-                  this.state.SelectedTabId==='tab4' ? (
-                  <div className="container">
-                      <FilterList   functionCallToAdd={this.addToViz}
-                                    returnViz={this.state.VizElements}
-                                    updateViz={this.updateViz}
-                                    vClient={this.state.vClient}
-                                    resource={vizObjects.filters[1]}
-                                    index="_4_1" />
+                    <div className="half-screen">
                       <AdHocView    functionCallToAdd={this.addToViz}
                                     resource={vizObjects.adHocViews[1]}
-                                    index="_4_2" />
+                                    index="_1_2" />
                     </div>
-                  ) : (<div>No Data</div>) }
-                 />
-          <Tabs.Expander />
+                    <div className="half-screen">
+                      <AdHocView    functionCallToAdd={this.addToViz}
+                                    resource={vizObjects.adHocViews[0]}
+                                    index="_1_3" />
+                    </div>
+                  </div>
+                } />
+          <Tab  id="tab2"
+                title="Hey it's another report. It has a long name."
+                panel={
+                  <div className="container">
+                      <Report functionCallToAdd={this.addToViz}
+                              resource={vizObjects.reports[0]}
+                              index="_2_1"/>
+                  </div>
+                } />
+          <Tab  id="tab3"
+                title="Hey it's a Dashboard tab"
+                panel={
+                  <div className="container">
+                      <Dashboard functionCallToAdd={this.addToViz}
+                                 resource={vizObjects.dashboards[0]}
+                                 index="_3_1" />
+                  </div>
+                } />
         </Tabs>
         <div className="footer"></div>
       </div>
@@ -127,19 +147,46 @@ class App extends Component {
 
 export default App;
 
-// <Tab  id="tab2"
-//       title="Hey it's another report. It has a long name."
+
+// <Tab  id="tab4"
+//       title="Hey it's another report"
 //       panel={
 //         <div className="container">
-//           <InputControls functionCallToAdd={this.addToViz} />
-//           <Report functionCallToAdd={this.addToViz} />
-//         </div>
-//       } />
-// <Tab  id="tab3"
-//       title="Hey it's a Dashboard tab"
+//             <FilterList   functionCallToAdd={this.addToViz}
+//                           returnViz={this.state.VizElements}
+//                           updateViz={this.updateViz}
+//                           vClient={this.state.vClient}
+//                           resource={vizObjects.filters[1]}
+//                           index="_4_1" />
+//             <AdHocView    functionCallToAdd={this.addToViz}
+//                           resource={vizObjects.adHocViews[1]}
+//                           index="_4_2" />
+//           </div>
+//         }
+//        />
+// <Tab  id="tab5"
+//       title="Hey it's a Table report"
 //       panel={
-//         <div className={this.state.SelectedTabId==='tab3'?
-//           'selected container':'container'}>
-//           <Dashboard functionCallToAdd={this.addToViz} />
+//         <div className="container">
+//             <FilterList   functionCallToAdd={this.addToViz}
+//                           returnViz={this.state.VizElements}
+//                           updateViz={this.updateViz}
+//                           vClient={this.state.vClient}
+//                           resource={vizObjects.filters[2]}
+//                           index="_5_1" />
+//             <AdHocView    functionCallToAdd={this.addToViz}
+//                           resource={vizObjects.adHocViews[2]}
+//                           index="_5_2" />
 //         </div>
-//       } />
+//      }
+//      />
+// <Tab  id="tab6"
+//       title="Hey it's a Crosstab report"
+//       panel={
+//          <div className="container">
+//             <AdHocView    functionCallToAdd={this.addToViz}
+//                           resource={vizObjects.adHocViews[3]}
+//                           index="_6_2" />
+//          </div>
+//       }
+//       />

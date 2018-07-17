@@ -2,6 +2,15 @@
   height: 100%;
 }
 
+.half-screen {
+  height: 50%;
+}
+
+.hidden {
+  height: 99%;
+  width: 98%;
+}
+
 .filters {
   height: calc(100% - 30px);
 }
@@ -25,6 +34,12 @@
   background-color: white;
 }
 
+tr.jr-mDatatable-row.jr.jr-mDatatable-rowOdd:hover,
+tr.jr-mDatatable-row.jr.jr-mDatatable-rowEven:hover {
+  background-color: orange;
+  cursor: pointer;
+}
+
 div.pt-tabs .pt-tab-panel[aria-hidden="true"] {
   display: block;
   height: 0;
@@ -39,10 +54,6 @@ div.pt-tabs .pt-tab-list {
   border-bottom-width: .1em;
   border-color: #77B6EA;
   width: inherit;
-}
-
-.selected {
-  width: 100%;
 }
 
 div.pt-tabs .pt-tab-panel {
