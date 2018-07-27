@@ -3,11 +3,6 @@ import PropTypes from 'prop-types';
 import { Spinner,Button,ButtonGroup } from '@blueprintjs/core';
 import './FilterList.css';
 
-//TODO: alternatively, the component is expected to pull all filters of an
-//Ad Hoc view, parse type, values and selected values, and render all the
-//filters based on the type and selected values. I'm going to need to find
-//sliders, calendars, radio buttons etc to render all the possible types
-
 class FilterList extends Component {
   constructor(props) {
     super(props);
@@ -68,7 +63,7 @@ class FilterList extends Component {
       //instance of filters in the current Tab
       let filter = function(component) {
         return component.functionCall === "adhocView"
-          && component.props.resource === linkedTo[i].resource;
+          && component.props.container.includes(linkedTo[i]);
       }
 
       const ahv = viz.find(filter);
@@ -113,7 +108,6 @@ class FilterList extends Component {
 }
 
 FilterList.propTypes = {
-  vClient: PropTypes.func,
   updateViz: PropTypes.func,
   returnViz: PropTypes.array,
   functionCallToAdd: PropTypes.func,

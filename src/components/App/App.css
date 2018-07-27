@@ -2,13 +2,8 @@
   height: 100%;
 }
 
-.half-screen {
+.half-screen-horizontal {
   height: 50%;
-}
-
-.hidden {
-  height: 99%;
-  width: 98%;
 }
 
 .filters {
@@ -73,8 +68,4 @@ div.pt-tab-list .pt-tab {
   border-right-style: solid;
   border-right-color: #e2e2de;
   outline: 0;
-}
-
-div.pt-tab-list .pt-tab:hover {
-  /* background-color: #E8EEF2; */
 }
